@@ -8,13 +8,19 @@ import { courseSteps, currentUser } from "../data/stepData";
 
 interface HomeViewProps {
   onOpenStep: (stepId: number) => void; // Avataan vaihe kun käyttäjä klikkaa
+  onOpenLogin: () => void;
+  onOpenRegister: () => void;
 }
 
-export function HomeView({ onOpenStep }: HomeViewProps) {
+export function HomeView({ onOpenStep, onOpenLogin, onOpenRegister }: HomeViewProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">
       {/* Yläpalkki */}
-      <Navbar title="Uravalmennus" />
+      <Navbar
+        title="Uravalmennus"
+        onOpenLogin={onOpenLogin}
+        onOpenRegister={onOpenRegister}
+      />
 
       {/* Edistymispalkki */}
       <div className="mt-2 mb-6">
