@@ -7,10 +7,12 @@ import { BottomNav } from "@/components/BottomNav";
 import { HomeView } from "@/pages/HomeView";
 import { ProfileView } from "@/pages/ProfileView";
 import { StepOneView } from "@/pages/StepOneView";
+import { LoginView } from "@/pages/LoginView";
+import { RegisterView } from "@/pages/RegisterView";
 import type { TabId } from "@/components/BottomNav";
 const queryClient = new QueryClient();
 // Kaikki mahdolliset näkymät sovelluksessa
-type View = "home" | "coaching" | "profile" | "step1";
+type View = "home" | "coaching" | "profile" | "step1" | "login" | "register";
 function Shell() {
   const [tab, setTab] = useState<TabId>("home");   // Aktiivinen välilehti
   const [view, setView] = useState<View>("home");  // Näytettävä näkymä
@@ -24,12 +26,32 @@ function Shell() {
     if (stepId === 1) setView("step1");
     // Muut vaiheet lisätään myöhemmin
   }
+
   // Palataan kotinäkymään
   function handleBack() {
     setView("home");
     setTab("home");
   }
+
+  //login-näkymään siirtyminen
+  function handleOpenLogin() {
+    setView("login");
+  }
+
+  //register-näkymään siirtyminen
+  function handleOpenRegister() {
+    setView("register");
+  }
+
   // Vaihe-näkymät eivät näytä alanavigaatiota
+  if (view === "login") {
+    return <LoginView onBack={handleBack} />;
+  }
+
+  if (view === "register") {
+    return <RegisterView onBack={handleBack} />;
+  }
+  
   if (view === "step1") {
     return <StepOneView onBack={handleBack} />;
   }
@@ -37,7 +59,13 @@ function Shell() {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Pääsisältöalue — scrollattava */}
       <main className="flex-1 overflow-y-auto pb-20">
-        {tab === "home"     && <HomeView onOpenStep={handleOpenStep} />}
+        {tab === "home" && (
+          <HomeView
+            onOpenStep={handleOpenStep}
+            onOpenLogin={handleOpenLogin}
+            onOpenRegister={handleOpenRegister}
+          />
+        )}
         {tab === "profile"  && <ProfileView />}
         {tab === "coaching" && (
           // Valmennus-osio — tulossa myöhemmin
