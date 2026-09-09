@@ -7,12 +7,13 @@ import { BottomNav } from "@/components/BottomNav";
 import { HomeView } from "@/pages/HomeView";
 import { ProfileView } from "@/pages/ProfileView";
 import { StepOneView } from "@/pages/StepOneView";
+import { StepTwoView } from "@/pages/StepTwoView";
 import { LoginView } from "@/pages/LoginView";
 import { RegisterView } from "@/pages/RegisterView";
 import type { TabId } from "@/components/BottomNav";
 const queryClient = new QueryClient();
 // Kaikki mahdolliset näkymät sovelluksessa
-type View = "home" | "coaching" | "profile" | "step1" | "login" | "register";
+type View = "home" | "coaching" | "profile" | "step1" | "step2" | "login" | "register";
 function Shell() {
   const [tab, setTab] = useState<TabId>("home");   // Aktiivinen välilehti
   const [view, setView] = useState<View>("home");  // Näytettävä näkymä
@@ -24,6 +25,7 @@ function Shell() {
   // Käyttäjä avaa vaiheen kotinäkymästä
   function handleOpenStep(stepId: number) {
     if (stepId === 1) setView("step1");
+    if (stepId === 2) setView("step2");
     // Muut vaiheet lisätään myöhemmin
   }
 
@@ -54,6 +56,8 @@ function Shell() {
   
   if (view === "step1") {
     return <StepOneView onBack={handleBack} />;
+  } else if ( view === "step2" ) {
+        return <StepTwoView onBack={handleBack} />;
   }
   return (
     <div className="min-h-screen bg-background flex flex-col">
