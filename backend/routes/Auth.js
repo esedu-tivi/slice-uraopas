@@ -12,7 +12,7 @@ router.post("/register", async (req, res) => {
     //tarkista onko username jo olemassa
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ error: "Username already exists" });
+      return res.status(400).json({ error: "Käyttäjänimi on jo käytössä" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -42,17 +42,17 @@ router.post("/login", async (req, res) => {
     //etsi käyttäjä
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({ error: "User not found" });
+      return res.status(400).json({ error: "Käyttäjää ei löytynyt" });
     }
 
     //tarkista salasana
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(400).json({ error: "Wrong password" });
+      return res.status(400).json({ error: "Väärä salasana" });
     }
 
     res.json({
-      message: "Login successful",
+      message: "Kirjautuminen onnistui!",
       userId: user._id
     });
 

@@ -10,9 +10,11 @@ interface HomeViewProps {
   onOpenStep: (stepId: number) => void; // Avataan vaihe kun käyttäjä klikkaa
   onOpenLogin: () => void;
   onOpenRegister: () => void;
+  loggedInUser: string | null;
+  onLogout: () => void;
 }
 
-export function HomeView({ onOpenStep, onOpenLogin, onOpenRegister }: HomeViewProps) {
+export function HomeView({ onOpenStep, onOpenLogin, onOpenRegister, loggedInUser, onLogout, }: HomeViewProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">
       {/* Yläpalkki */}
@@ -20,6 +22,8 @@ export function HomeView({ onOpenStep, onOpenLogin, onOpenRegister }: HomeViewPr
         title="Uravalmennus"
         onOpenLogin={onOpenLogin}
         onOpenRegister={onOpenRegister}
+        loggedInUser={loggedInUser}
+        onLogout={onLogout}
       />
 
       {/* Edistymispalkki */}

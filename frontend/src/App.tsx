@@ -10,12 +10,17 @@ import { StepOneView } from "@/pages/StepOneView";
 import { LoginView } from "@/pages/LoginView";
 import { RegisterView } from "@/pages/RegisterView";
 import type { TabId } from "@/components/BottomNav";
+
 const queryClient = new QueryClient();
+
 // Kaikki mahdolliset näkymät sovelluksessa
 type View = "home" | "coaching" | "profile" | "step1" | "login" | "register";
+
 function Shell() {
   const [tab, setTab] = useState<TabId>("home");   // Aktiivinen välilehti
   const [view, setView] = useState<View>("home");  // Näytettävä näkymä
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null); //Kirjautunut käyttäjä
+
   // Käyttäjä vaihtaa välilehteä navigaatiopalkilta
   function handleTabChange(newTab: TabId) {
     setTab(newTab);
@@ -43,13 +48,44 @@ function Shell() {
     setView("register");
   }
 
+  //Uloskirjautuminen
+  function handleLogout() {
+    const confirmed = window.confirm("Haluatko varmasti kirjautua ulos?");
+
+    if (!confirmed) {
+      return;
+    }
+
+    setLoggedInUser(null);
+    setView("home");
+    setTab("home");
+  }
+
   // Vaihe-näkymät eivät näytä alanavigaatiota
   if (view === "login") {
-    return <LoginView onBack={handleBack} />;
+    return (
+      <LoginView
+        onBack={handleBack}
+        onLogin={(username) => {
+          setLoggedInUser(username);
+          setView("home");
+          setTab("home");
+        }}
+      />
+    );
   }
 
   if (view === "register") {
-    return <RegisterView onBack={handleBack} />;
+    return (
+      <RegisterView
+        onBack={handleBack}
+        onOpenLogin={() => setView("login")}
+        onOpenHome={() => {
+          setView("home");
+          setTab("home");
+        }}
+      />
+    );
   }
   
   if (view === "step1") {
@@ -64,6 +100,8 @@ function Shell() {
             onOpenStep={handleOpenStep}
             onOpenLogin={handleOpenLogin}
             onOpenRegister={handleOpenRegister}
+            loggedInUser={loggedInUser}
+            onLogout={handleLogout}
           />
         )}
         {tab === "profile"  && <ProfileView />}
