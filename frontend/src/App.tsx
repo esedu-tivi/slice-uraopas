@@ -104,7 +104,15 @@ function Shell() {
             onLogout={handleLogout}
           />
         )}
-        {tab === "profile"  && <ProfileView />}
+        {tab === "profile" && (
+          <ProfileView
+            loggedInUser={loggedInUser}
+            onOpenLogin={handleOpenLogin}
+            onOpenRegister={handleOpenRegister}
+            onLogout={handleLogout}
+          />
+        )}
+
         {tab === "coaching" && (
           // Valmennus-osio — tulossa myöhemmin
           <div className="min-h-screen flex flex-col items-center justify-center px-8 text-center">
