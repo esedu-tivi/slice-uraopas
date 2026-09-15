@@ -2,9 +2,11 @@ import { useState } from "react";
 
 interface RegisterViewProps {
   onBack: () => void;
+  onOpenLogin: () => void;
+  onOpenHome: () => void;
 }
 
-export function RegisterView({ onBack }: RegisterViewProps) {
+export function RegisterView({ onBack, onOpenLogin, onOpenHome }: RegisterViewProps) {
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -14,9 +16,13 @@ export function RegisterView({ onBack }: RegisterViewProps) {
     const [field, setField] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [formError, setFormError] = useState("");
+    const [registrationComplete, setRegistrationComplete] = useState(false);
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        setFormError("");
 
         // Onko kaikki kentät täytetty?
         if (
@@ -63,14 +69,67 @@ export function RegisterView({ onBack }: RegisterViewProps) {
 
         setPasswordError("");
 
-        console.log("Käyttäjänimi:", username);
-        console.log("Etunimi:", firstName);
-        console.log("Sukunimi:", lastName);
-        console.log("Ikä:", age);
-        console.log("Salasana:", password);
-        console.log("Vahvistettu salasana:", confirmPassword);
-        console.log("Ala:", field);
+        // Lähetetään rekisteröitymistiedot backendin API:lle
+        try {
+            const response = await fetch("http://localhost:5000/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username,
+                    firstName,
+                    lastName,
+                    age: ageNumber,
+                    password,
+                    field,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setFormError(data.error || "Rekisteröityminen epäonnistui.");
+                return;
+            }
+
+            setRegistrationComplete(true);
+
+        } catch (error) {
+            console.error("Rekisteröityminen epäonnistui:", error);
+        }
+
     }
+
+    if (registrationComplete) {
+        return (
+            <div className="min-h-screen bg-background flex flex-col items-center justify-center px-5">
+            <h1 className="text-2xl font-bold text-foreground">
+                Rekisteröityminen
+            </h1>
+
+            <p className="mt-6 text-sm text-emerald-400">
+                Rekisteröityminen onnistui!
+            </p>
+
+            <div className="flex flex-col gap-4 w-full max-w-sm mt-8">
+                <button
+                onClick={onOpenLogin}
+                className="w-full bg-primary text-primary-foreground font-bold py-3 rounded-xl hover:brightness-105 active:scale-[0.98] transition-all duration-150"
+                >
+                Kirjaudu sisään
+                </button>
+
+                <button
+                onClick={onOpenHome}
+                className="w-full text-primary font-medium"
+                >
+                Etusivulle
+                </button>
+            </div>
+            </div>
+        );
+        }
 
     return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-5">

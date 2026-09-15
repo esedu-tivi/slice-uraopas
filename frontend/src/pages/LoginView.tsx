@@ -2,17 +2,38 @@ import { useState } from "react";
 
 interface LoginViewProps {
   onBack: () => void;
+  onLogin: (username: string) => void;
 }
 
-export function LoginView({ onBack }: LoginViewProps) {
+export function LoginView({ onBack, onLogin }: LoginViewProps) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [formError, setFormError] = useState("");
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        setFormError("");
 
-        console.log("Käyttäjänimi:", username);
-        console.log("Salasana:", password);
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                password,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setFormError(data.error || "Kirjautuminen epäonnistui.");
+            return;
+        }
+
+        onLogin(username);
+
     }
 
     return (
@@ -64,6 +85,12 @@ export function LoginView({ onBack }: LoginViewProps) {
             >
                 Kirjaudu
             </button>
+
+            {formError && (
+                <p className="mt-4 text-sm text-red-500">
+                    {formError}
+                </p>
+            )}
         </form>
 
         <button

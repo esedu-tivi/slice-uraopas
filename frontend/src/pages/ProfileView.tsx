@@ -7,11 +7,25 @@ import { Download, FileText, Check } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { currentUser, materials } from "../data/stepData";
 
-export function ProfileView() {
+interface ProfileViewProps {
+  loggedInUser: string | null;
+  onOpenLogin: () => void;
+  onOpenRegister: () => void;
+  onLogout: () => void;
+}
+
+
+export function ProfileView({ loggedInUser, onOpenLogin, onOpenRegister, onLogout, }: ProfileViewProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">
       {/* Yläpalkki */}
-      <Navbar title="Oma profiili" />
+      <Navbar 
+        title="Oma profiili"
+        onOpenLogin={onOpenLogin}
+        onOpenRegister={onOpenRegister}
+        loggedInUser={loggedInUser}
+        onLogout={onLogout}
+      />
 
       <div className="px-5 mt-2 space-y-6">
         {/* Profiilikortti — käyttäjän avatar, nimi ja titteli */}
