@@ -8,7 +8,33 @@ const userSchema = new mongoose.Schema({
   age: { type: Number, required: true },
   password: { type: String, required: true },
   field: { type: String, required: true },
-  points: Number
+  progress: {
+        // 0 for 0/10
+        overall: { type: Number, required: true },
+        stepOne: {
+                // Is step overall done. This is for later with progress bar 
+                done: { type: Boolean, required: true },
+                taskOne: {
+                        done: {type: Boolean, required: true},
+                        answer: {type: String, default: null}
+                },
+                taskTwo: {
+                        done: { type: Boolean, required: true }
+                }
+        },
+        stepTwo: {
+                done: { type: Boolean, required: true },
+                taskOne: {
+                        done: {type: Boolean, required: true},
+                        answer: {type: String, default: null}
+                },
+                taskTwo: {
+                        done: {type: Boolean, required: true},
+                        answer: {type: String, default: null}
+                }
+        }
+        // add more when ready
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -123,3 +123,28 @@ export const stepTwoContent = {
                 2. Pohdi tilannetta jossa jouduit toimimaan arvojasi vastaan. Olisitko voinut välttää tilanteen, mitä se olisi vaatinut ja mitä hyviä tai pahoja seurauksia sillä olisi voinut olla. (Ei tarvitse kirjoittaa)`
         }
 }
+
+export interface UserProgress {
+        overall: number;
+        stepOne: {
+                done: boolean;
+                taskOne: {
+                        done: boolean;
+                        answer: string | null;
+                };
+                taskTwo: {
+                        done: boolean;
+                };
+        };
+        stepTwo: {
+                done: boolean;
+                taskOne: {
+                        done: boolean;
+                        answer: string | null;
+                };
+                taskTwo: {
+                        done: boolean;
+                        answer: string | null;
+                };
+        };
+}

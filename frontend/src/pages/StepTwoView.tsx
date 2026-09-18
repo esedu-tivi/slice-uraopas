@@ -2,33 +2,97 @@
 // Kaksi vaihetta: intro (video + tehtävä-nappi) ja itse tehtävä (tekstikenttä)
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { currentUser, stepTwoContent } from "@/data/stepData";
+import type { UserProgress } from "@/data/stepData";
 
 interface StepTwoViewProps {
         onBack: () => void; // Palataan takaisin kotinäkymään
+        userName: string | null;
+        userProgress: UserProgress | null;
+        onProgressUpdate: (progress: UserProgress) => void;
 }
 
-export function StepTwoView({ onBack }: StepTwoViewProps) {
+export function StepTwoView({ onBack, userName, userProgress, onProgressUpdate }: StepTwoViewProps) {
         const [taskOneAnswer, setAnswerOne] = useState("");            // Käyttäjän kirjoittama vastaus
         const [taskTwoAnswer, setAnswerTwo] = useState("");
         // Are tasks done/saved
         const [taskOneSaved, setOneSaved] = useState(false);
         const [taskTwoSaved, setTwoSaved] = useState(false);
 
+        useEffect(() => {
+                // Goes through user saved progress
+                if ( userProgress !== null ) {
+                        if ( userProgress.stepTwo.taskOne.answer !== null ) { setOneSaved(true), setAnswerOne(userProgress.stepTwo.taskOne.answer) }
+                        if ( userProgress.stepTwo.taskTwo.answer !== null ) { setTwoSaved(true), setAnswerTwo(userProgress.stepTwo.taskTwo.answer) }
+                }     
+        }, [userProgress])
+
         // Save handling
-        function saveTaskTwo(taskNumber: number) {
-                console.log(taskNumber);
-                if ( taskNumber === 1 ) {
-                        setOneSaved(true)
-                        console.log("Task one saved!");
-                        console.log(taskOneAnswer);
-                        
-                } else if ( taskNumber === 2 ) {
-                        setTwoSaved(true)
-                        console.log("Task two saved!");
-                } 
+        async function savingStep(taskNumber: 1 | 2) {
+                
+                if ( userProgress === null ) {
+                        window.alert("Et ole kirjautunut. Rekisteröidy ja/tai kirjaudu sisään tallentaaksesi vastauksia.")
+                        return
+                }
+
+                if ( taskNumber === 1 && taskOneAnswer === "") {
+                        window.alert("Tekstikenttä tyhjä.")
+                        return
+                } else if ( taskNumber === 2 && taskTwoAnswer === "") {
+                        window.alert("Tekstikenttä tyhjä.")
+                        return
+                }
+
+                const answerOne = taskOneAnswer === "" ? null : taskOneAnswer
+                const answerTwo = taskTwoAnswer === "" ? null : taskTwoAnswer
+                
+                const taskOneDone = taskNumber === 1 || taskOneSaved;
+                const taskTwoDone = taskNumber === 2 || taskTwoSaved;
+
+                try {
+                        const response = await fetch(
+                                "http://localhost:5000/api/auth/progress/stepTwo",
+                                {
+                                        method: "PATCH",
+                                        headers: {
+                                                "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({
+                                                userName: userName,
+                                                stepTwo: {
+                                                        done: taskOneDone && taskTwoDone,
+                                                        taskOne: {
+                                                                done: taskOneDone,
+                                                                answer: answerOne
+                                                        },
+                                                        taskTwo: {
+                                                                done: taskTwoDone,
+                                                                answer: answerTwo
+                                                        }
+                                                }
+                                        }),
+                                }
+                        );
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                                throw new Error(data.error ?? `HTTP ${response.status}`);
+                        }
+
+                        onProgressUpdate(data.progress);
+
+                        if (taskNumber === 1) {
+                                setOneSaved(true);
+                        } else {
+                                setTwoSaved(true);
+                        }
+
+                } catch (error) {
+                        console.error("Saving failed:", error);
+                }
         }
 
         return (
@@ -99,7 +163,7 @@ export function StepTwoView({ onBack }: StepTwoViewProps) {
                                         />
                                         )}
                                         <button
-                                                onClick={() => saveTaskTwo(1)}
+                                                onClick={() => savingStep(1)}
                                                 disabled={taskOneSaved}
                                                 className="w-full py-4 rounded-full bg-primary text-primary-foreground font-bold text-sm tracking-wide hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                                                 >
@@ -147,7 +211,7 @@ export function StepTwoView({ onBack }: StepTwoViewProps) {
                                         />
                                         )}
                                         <button
-                                                onClick={() => saveTaskTwo(2)}
+                                                onClick={() => savingStep(2)}
                                                 disabled={taskTwoSaved}
                                                 className="w-full py-4 rounded-full bg-primary text-primary-foreground font-bold text-sm tracking-wide hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                                                 >

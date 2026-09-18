@@ -11,6 +11,7 @@ import { StepTwoView } from "@/pages/StepTwoView";
 import { LoginView } from "@/pages/LoginView";
 import { RegisterView } from "@/pages/RegisterView";
 import type { TabId } from "@/components/BottomNav";
+import type { UserProgress } from "@/data/stepData";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function Shell() {
   const [tab, setTab] = useState<TabId>("home");   // Aktiivinen välilehti
   const [view, setView] = useState<View>("home");  // Näytettävä näkymä
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null); //Kirjautunut käyttäjä
+  const [progress, setProgress] = useState<UserProgress | null>(null);
 
   // Käyttäjä vaihtaa välilehteä navigaatiopalkilta
   function handleTabChange(newTab: TabId) {
@@ -67,8 +69,9 @@ function Shell() {
     return (
       <LoginView
         onBack={handleBack}
-        onLogin={(username) => {
+        onLogin={(username, progress) => {
           setLoggedInUser(username);
+          setProgress(progress)
           setView("home");
           setTab("home");
         }}
@@ -90,10 +93,21 @@ function Shell() {
   }
   
   if (view === "step1") {
-    return <StepOneView onBack={handleBack} />;
+        return <StepOneView
+                onBack={handleBack}
+                userName={loggedInUser}
+                userProgress={progress}
+                onProgressUpdate={setProgress}
+                />;
   } else if ( view === "step2" ) {
-        return <StepTwoView onBack={handleBack} />;
+        return <StepTwoView 
+                onBack={handleBack}
+                userName={loggedInUser}
+                userProgress={progress}
+                onProgressUpdate={setProgress}
+                />;
   }
+  
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Pääsisältöalue — scrollattava */}
