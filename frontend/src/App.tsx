@@ -21,6 +21,7 @@ function Shell() {
   const [tab, setTab] = useState<TabId>("home");   // Aktiivinen välilehti
   const [view, setView] = useState<View>("home");  // Näytettävä näkymä
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null); //Kirjautunut käyttäjä
+  const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null); //Kirjautuneen käyttäjän ID
   const [progress, setProgress] = useState<UserProgress | null>(null);
 
   // Käyttäjä vaihtaa välilehteä navigaatiopalkilta
@@ -60,6 +61,8 @@ function Shell() {
     }
 
     setLoggedInUser(null);
+    setLoggedInUserId(null);
+    setProgress(null);
     setView("home");
     setTab("home");
   }
@@ -69,8 +72,9 @@ function Shell() {
     return (
       <LoginView
         onBack={handleBack}
-        onLogin={(username, progress) => {
+        onLogin={(username, userId, progress) => {
           setLoggedInUser(username);
+          setLoggedInUserId(userId);
           setProgress(progress)
           setView("home");
           setTab("home");
@@ -124,6 +128,7 @@ function Shell() {
         {tab === "profile" && (
           <ProfileView
             loggedInUser={loggedInUser}
+            loggedInUserId={loggedInUserId}
             onOpenLogin={handleOpenLogin}
             onOpenRegister={handleOpenRegister}
             onLogout={handleLogout}

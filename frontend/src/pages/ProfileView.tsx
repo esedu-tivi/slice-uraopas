@@ -3,19 +3,56 @@
 // Näyttää käyttäjän tiedot ja ladattavat materiaalit
 
 
+import { useEffect, useState } from "react";
 import { Download, FileText, Check } from "lucide-react";
 import { Navbar } from "../components/Navbar";
-import { currentUser, materials } from "../data/stepData";
+import { materials } from "../data/stepData";
+
+interface UserProfile {
+  username: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  field: string;
+}
 
 interface ProfileViewProps {
   loggedInUser: string | null;
+  loggedInUserId: string | null;
   onOpenLogin: () => void;
   onOpenRegister: () => void;
   onLogout: () => void;
 }
 
 
-export function ProfileView({ loggedInUser, onOpenLogin, onOpenRegister, onLogout, }: ProfileViewProps) {
+export function ProfileView({ loggedInUser, loggedInUserId, onOpenLogin, onOpenRegister, onLogout, }: ProfileViewProps) {
+
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+
+    async function fetchUserProfile() {
+      if (!loggedInUserId) {
+        return;
+      }
+
+      const response = await fetch(
+        `http://localhost:5000/api/users/${loggedInUserId}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Käyttäjätietojen hakeminen epäonnistui:", data);
+        return;
+      }
+
+      setUserProfile(data);
+    }
+
+    fetchUserProfile();
+  }, [loggedInUserId]);
+
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">
       {/* Yläpalkki */}
@@ -33,21 +70,19 @@ export function ProfileView({ loggedInUser, onOpenLogin, onOpenRegister, onLogou
           <div className="flex items-center gap-4 mb-4">
             {/* Pyöreä avatar kirjaimella */}
             <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-2xl font-bold shrink-0">
-              {currentUser.initials}
+              {userProfile ? userProfile.firstName.charAt(0).toUpperCase() : ""}
             </div>
             <div>
               <h2 className="text-base font-bold text-foreground leading-tight">
-                {currentUser.name}
+                {userProfile
+                  ? `${userProfile.firstName} ${userProfile.lastName}`
+                  : ""}
               </h2>
               <p className="text-sm text-muted-foreground mt-0.5">
-                {currentUser.title}
+                {userProfile ? userProfile.field : ""}
               </p>
             </div>
           </div>
-          {/* Valmistumisaika */}
-          <p className="text-sm text-muted-foreground">
-            Valmistuminen: {currentUser.graduation}
-          </p>
         </div>
 
         {/* Materiaalit-osio — lista dokumenteista */}

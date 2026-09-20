@@ -3,7 +3,7 @@ import type { UserProgress } from "@/pages/StepOneView";
 
 interface LoginViewProps {
   onBack: () => void;
-  onLogin: (username: string, progress: UserProgress) => void;
+  onLogin: (username: string, userId: string, progress: UserProgress) => void;
 }
 
 export function LoginView({ onBack, onLogin }: LoginViewProps) {
@@ -38,7 +38,7 @@ export function LoginView({ onBack, onLogin }: LoginViewProps) {
             return;
         }
 
-        onLogin(username, data.progress);
+        onLogin(username, data.userId, data.progress);
 
     }
 
