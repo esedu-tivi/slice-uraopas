@@ -53,7 +53,7 @@ export function StepTwoView({ onBack, userName, userProgress, onProgressUpdate }
 
                 try {
                         const response = await fetch(
-                                "http://localhost:5000/api/auth/progress/stepTwo",
+                                "/api/auth/progress/stepTwo",
                                 {
                                         method: "PATCH",
                                         headers: {

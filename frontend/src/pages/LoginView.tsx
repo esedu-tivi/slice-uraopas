@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { UserProgress } from "@/pages/StepOneView";
+import type { UserProgress } from "@/data/stepData";
 
 interface LoginViewProps {
   onBack: () => void;
