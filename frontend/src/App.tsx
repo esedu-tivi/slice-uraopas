@@ -122,6 +122,7 @@ function Shell() {
             onOpenLogin={handleOpenLogin}
             onOpenRegister={handleOpenRegister}
             loggedInUser={loggedInUser}
+            userProgress={progress}
             onLogout={handleLogout}
           />
         )}
