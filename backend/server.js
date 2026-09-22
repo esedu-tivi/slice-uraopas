@@ -11,6 +11,7 @@ connectDB();
 // middlewaret
 app.use(cors());
 app.use(express.json());
+app.use(express.static('dist'))
 
 // routet
 app.use("/api/auth", require("./routes/Auth"));
