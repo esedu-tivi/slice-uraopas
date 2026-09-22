@@ -1,8 +1,9 @@
 import { useState } from "react";
+import type { UserProgress } from "@/pages/StepOneView";
 
 interface LoginViewProps {
   onBack: () => void;
-  onLogin: (username: string) => void;
+  onLogin: (username: string, userId: string, progress: UserProgress) => void;
 }
 
 export function LoginView({ onBack, onLogin }: LoginViewProps) {
@@ -25,14 +26,19 @@ export function LoginView({ onBack, onLogin }: LoginViewProps) {
             }),
         });
 
-        const data = await response.json();
+        const data: {
+                userId: string;
+                progress: UserProgress;
+                error?: string;
+        } = await response.json();
+        
 
         if (!response.ok) {
             setFormError(data.error || "Kirjautuminen epäonnistui.");
             return;
         }
 
-        onLogin(username);
+        onLogin(username, data.userId, data.progress);
 
     }
 

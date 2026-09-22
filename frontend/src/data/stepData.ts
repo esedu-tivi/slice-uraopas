@@ -32,16 +32,16 @@ export const currentUser: UserData = {
 };
 // Kaikki 10 kurssivaihetta järjestyksessä
 export const courseSteps: CourseStep[] = [
-        { id: 1,  title: "VAHVUUDET JA VERKOSTO", completed: true,  locked: false },
-        { id: 2,  title: "OMAT TAIDOT",       completed: false, locked: false, active: true },
-        { id: 3,  title: "CV",                completed: false, locked: true  },
-        { id: 4,  title: "TYÖHAKEMUS",        completed: false, locked: true  },
-        { id: 5,  title: "HISSIPUHE",         completed: false, locked: true  },
-        { id: 6,  title: "ITSEVARMUUS",       completed: false, locked: true  },
-        { id: 7,  title: "HAASTATTELU",       completed: false, locked: true  },
-        { id: 8,  title: "TYÖELÄMÄTAIDOT",    completed: false, locked: true  },
-        { id: 9,  title: "URASUUNNITELMA",    completed: false, locked: true  },
-        { id: 10, title: "VALMIS TYÖNHAKUUN", completed: false, locked: true  },
+        { id: 1,  title: "VAHVUUDET JA VERKOSTO", completed: false,  locked: true, active: false },
+        { id: 2,  title: "OMAT TAIDOT",       completed: false, locked: true, active: false },
+        { id: 3,  title: "CV (Kesken. Materiaalit puuttuu tästä eteenpäin)",                completed: false, locked: true, active: false  },
+        { id: 4,  title: "TYÖHAKEMUS",        completed: false, locked: true, active: false  },
+        { id: 5,  title: "HISSIPUHE",         completed: false, locked: true, active: false  },
+        { id: 6,  title: "ITSEVARMUUS",       completed: false, locked: true, active: false  },
+        { id: 7,  title: "HAASTATTELU",       completed: false, locked: true, active: false  },
+        { id: 8,  title: "TYÖELÄMÄTAIDOT",    completed: false, locked: true, active: false  },
+        { id: 9,  title: "URASUUNNITELMA",    completed: false, locked: true, active: false  },
+        { id: 10, title: "VALMIS TYÖNHAKUUN", completed: false, locked: true, active: false  },
 ];
 // Käyttäjän materiaalit — näkyy profiilisivulla
 export const materials: Material[] = [
@@ -122,4 +122,28 @@ export const stepTwoContent = {
                 1. Kirjoita 5 itsellesi tärkeintä arvoa.
                 2. Pohdi tilannetta jossa jouduit toimimaan arvojasi vastaan. Olisitko voinut välttää tilanteen, mitä se olisi vaatinut ja mitä hyviä tai pahoja seurauksia sillä olisi voinut olla. (Ei tarvitse kirjoittaa)`
         }
+}
+
+export interface UserProgress {
+        stepOne: {
+                done: boolean;
+                taskOne: {
+                        done: boolean;
+                        answer: string | null;
+                };
+                taskTwo: {
+                        done: boolean;
+                };
+        };
+        stepTwo: {
+                done: boolean;
+                taskOne: {
+                        done: boolean;
+                        answer: string | null;
+                };
+                taskTwo: {
+                        done: boolean;
+                        answer: string | null;
+                };
+        };
 }

@@ -11,6 +11,7 @@ import { StepTwoView } from "@/pages/StepTwoView";
 import { LoginView } from "@/pages/LoginView";
 import { RegisterView } from "@/pages/RegisterView";
 import type { TabId } from "@/components/BottomNav";
+import type { UserProgress } from "@/data/stepData";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,8 @@ function Shell() {
   const [tab, setTab] = useState<TabId>("home");   // Aktiivinen välilehti
   const [view, setView] = useState<View>("home");  // Näytettävä näkymä
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null); //Kirjautunut käyttäjä
+  const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null); //Kirjautuneen käyttäjän ID
+  const [progress, setProgress] = useState<UserProgress | null>(null);
 
   // Käyttäjä vaihtaa välilehteä navigaatiopalkilta
   function handleTabChange(newTab: TabId) {
@@ -58,6 +61,8 @@ function Shell() {
     }
 
     setLoggedInUser(null);
+    setLoggedInUserId(null);
+    setProgress(null);
     setView("home");
     setTab("home");
   }
@@ -67,8 +72,10 @@ function Shell() {
     return (
       <LoginView
         onBack={handleBack}
-        onLogin={(username) => {
+        onLogin={(username, userId, progress) => {
           setLoggedInUser(username);
+          setLoggedInUserId(userId);
+          setProgress(progress)
           setView("home");
           setTab("home");
         }}
@@ -90,10 +97,21 @@ function Shell() {
   }
   
   if (view === "step1") {
-    return <StepOneView onBack={handleBack} />;
+        return <StepOneView
+                onBack={handleBack}
+                userName={loggedInUser}
+                userProgress={progress}
+                onProgressUpdate={setProgress}
+                />;
   } else if ( view === "step2" ) {
-        return <StepTwoView onBack={handleBack} />;
+        return <StepTwoView 
+                onBack={handleBack}
+                userName={loggedInUser}
+                userProgress={progress}
+                onProgressUpdate={setProgress}
+                />;
   }
+  
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Pääsisältöalue — scrollattava */}
@@ -104,12 +122,14 @@ function Shell() {
             onOpenLogin={handleOpenLogin}
             onOpenRegister={handleOpenRegister}
             loggedInUser={loggedInUser}
+            userProgress={progress}
             onLogout={handleLogout}
           />
         )}
         {tab === "profile" && (
           <ProfileView
             loggedInUser={loggedInUser}
+            loggedInUserId={loggedInUserId}
             onOpenLogin={handleOpenLogin}
             onOpenRegister={handleOpenRegister}
             onLogout={handleLogout}
