@@ -98,7 +98,7 @@ export const stepTwoContent = {
                 taskQuestion: `Tehtävät
                 1. Kirjoita 3 asiaa mitä voisit kirjoittaa omaan työhakemukseesi tai CV:seen.
                 2. Kirjoita yksi taitosi/osaamisesi mikä tekee sinusta paremman työntekijän, mutta mitä ei yleensä mainittaisi erikseen hakiessa töitä.
-                3. Pohdi hetki mitä taitoa voisit kehittää, jotta sinusta tulisi parempi työntekijä. (Ei tarvitse kirjoittaa)`
+                3. Pohdi hetki mitä taitoa voisit kehittää, jotta sinusta tulisi parempi työntekijä.`
         },
         task2: {
                 taskTitle: "Arvot",
@@ -120,7 +120,7 @@ export const stepTwoContent = {
                 -Yhteisöllisyys`,
                 taskQuestion: `Tehtävät
                 1. Kirjoita 5 itsellesi tärkeintä arvoa.
-                2. Pohdi tilannetta jossa jouduit toimimaan arvojasi vastaan. Olisitko voinut välttää tilanteen, mitä se olisi vaatinut ja mitä hyviä tai pahoja seurauksia sillä olisi voinut olla. (Ei tarvitse kirjoittaa)`
+                2. Pohdi tilannetta jossa jouduit toimimaan arvojasi vastaan. Olisitko voinut välttää tilanteen, mitä se olisi vaatinut ja mitä hyviä tai pahoja seurauksia sillä olisi voinut olla.`
         }
 }
 

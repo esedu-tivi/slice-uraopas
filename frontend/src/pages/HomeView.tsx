@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Check, Lock, Star } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { ProgressBar } from "../components/ProgressBar";
-import { courseSteps, type CourseStep, currentUser } from "../data/stepData";
+import { courseSteps, type CourseStep } from "../data/stepData";
 import { UserProgress } from "@/data/stepData";
 
 interface HomeViewProps {
@@ -25,12 +25,28 @@ export function HomeView({ onOpenStep, onOpenLogin, onOpenRegister, loggedInUser
 
         useEffect(() => {
                 
-                if ( userProgress === null ) {
-                        return
-                }
                 const temporarySteps = courseSteps.map(step => ({ ...step }));
                 let temporaryAmount = 0
-                
+
+                if ( userProgress === null ) {
+                        temporarySteps[0].completed = true // false
+                        temporarySteps[0].active = false  // true
+                        temporarySteps[0].locked = false // false
+
+                        temporarySteps[1].completed = false // false
+                        temporarySteps[1].active = true // false
+                        temporarySteps[1].locked = false //true
+
+                        temporarySteps[2].completed = false
+                        temporarySteps[2].active = false
+                        temporarySteps[2].locked = true
+
+
+                        setStepAmount(temporaryAmount)  
+                        setSteps(temporarySteps)
+                        return
+                }
+
                 temporarySteps[0].locked = false
                 temporarySteps[0].active = true
 

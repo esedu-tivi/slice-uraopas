@@ -126,6 +126,7 @@ export function StepOneView({ onBack, userName, userProgress, onProgressUpdate }
                                         {stepOneContent.task1.taskMaterial}
                                         </p>
                                         <p>{stepOneContent.task1.taskQuestion}</p>
+                                        
 
                                         {/* If saved: show in reading view */}
                                         {taskOneSaved ? (
