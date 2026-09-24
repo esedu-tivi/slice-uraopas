@@ -47,7 +47,7 @@ export function StepOneView({ onBack, userName, userProgress, onProgressUpdate }
 
                 try {
                         const response = await fetch(
-                                "http://localhost:5000/api/auth/progress/stepOne",
+                                "/api/auth/progress/stepOne",
                                 {
                                         method: "PATCH",
                                         headers: {
@@ -126,6 +126,7 @@ export function StepOneView({ onBack, userName, userProgress, onProgressUpdate }
                                         {stepOneContent.task1.taskMaterial}
                                         </p>
                                         <p>{stepOneContent.task1.taskQuestion}</p>
+                                        
 
                                         {/* If saved: show in reading view */}
                                         {taskOneSaved ? (
