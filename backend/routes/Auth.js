@@ -25,7 +25,6 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
       field,
       progress: {
-        overall: 0,
         stepOne: {
                 done: false,
                 taskOne: {

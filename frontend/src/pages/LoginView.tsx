@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { UserProgress } from "@/pages/StepOneView";
+import type { UserProgress } from "@/data/stepData";
 
 interface LoginViewProps {
   onBack: () => void;
@@ -15,7 +15,7 @@ export function LoginView({ onBack, onLogin }: LoginViewProps) {
         event.preventDefault();
         setFormError("");
 
-        const response = await fetch("http://localhost:5000/api/auth/login", {
+        const response = await fetch("/api/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

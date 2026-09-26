@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { currentUser, stepTwoContent } from "@/data/stepData";
 import type { UserProgress } from "@/data/stepData";
+import { Tooltip } from "@mui/material";
+import HelpIcon from '@mui/icons-material/Help';
 
 interface StepTwoViewProps {
         onBack: () => void; // Palataan takaisin kotinäkymään
@@ -53,7 +55,7 @@ export function StepTwoView({ onBack, userName, userProgress, onProgressUpdate }
 
                 try {
                         const response = await fetch(
-                                "http://localhost:5000/api/auth/progress/stepTwo",
+                                "/api/auth/progress/stepTwo",
                                 {
                                         method: "PATCH",
                                         headers: {
@@ -132,7 +134,12 @@ export function StepTwoView({ onBack, userName, userProgress, onProgressUpdate }
                                         <p className="text-sm text-muted-foreground leading-relaxed">
                                         {stepTwoContent.task1.taskMaterial}
                                         </p>
-                                        <p>{stepTwoContent.task1.taskQuestion}</p>
+                                        <p>
+                                                {stepTwoContent.task1.taskQuestion}
+                                                <Tooltip title="Jos tehtävän osa ei vaadi kirjoitusta, pelkkä pohtiminen riittää." arrow>
+                                                        <HelpIcon></HelpIcon>
+                                                </Tooltip>
+                                        </p>
 
                                         {/* If saved: show in reading view */}
                                         {taskOneSaved ? (
@@ -179,14 +186,19 @@ export function StepTwoView({ onBack, userName, userProgress, onProgressUpdate }
                                                 </h2>
                                         </div>
                                         <p className="text-sm text-muted-foreground leading-relaxed">
-                                        {stepTwoContent.task2.taskMaterial}
+                                                {stepTwoContent.task2.taskMaterial}
                                         </p>
-                                        <p>{stepTwoContent.task2.taskQuestion}</p>
+                                        <p>
+                                                {stepTwoContent.task2.taskQuestion}
+                                                <Tooltip title="Jos tehtävän osa ei vaadi kirjoitusta, pelkkä pohtiminen riittää." arrow>
+                                                        <HelpIcon></HelpIcon>
+                                                </Tooltip>
+                                        </p>
                                         {/* If saved: show in reading view */}
                                         {taskTwoSaved ? (
                                         <div className="bg-primary/10 border border-primary/20 rounded-2xl p-4">
                                                 <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                                                {taskTwoAnswer}
+                                                        {taskTwoAnswer}
                                                 </p>
                                                 <div className="flex items-center gap-1.5 mt-3">
                                                         <span className="text-emerald-400 text-base">✓</span>

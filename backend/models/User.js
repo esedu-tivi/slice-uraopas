@@ -9,8 +9,6 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   field: { type: String, required: true },
   progress: {
-        // 0 for 0/10
-        overall: { type: Number, required: true },
         stepOne: {
                 // Is step overall done. This is for later with progress bar 
                 done: { type: Boolean, required: true },
