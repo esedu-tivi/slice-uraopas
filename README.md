@@ -11,6 +11,7 @@ Projektissa käytetään:
 - Vite
 - Tailwind CSS
 - Material UI (MUI)
+- lucide-react
 - TanStack React Query
 - Node.js
 - Express
@@ -46,10 +47,6 @@ Frontendin pääosat sijaitsevat `frontend/src`-kansiossa:
 
 Sovelluksen näkymien hallinta on toteutettu `App.tsx`-tiedostossa. Käyttäjä voi siirtyä esimerkiksi etusivun, profiilin, kirjautumisen ja uraoppaan vaiheiden välillä.
 
-Frontend ottaa yhteyden backendiin API-kutsujen avulla. Kehitysympäristössä Vite välittää `/api`-alkuiset pyynnöt backendin porttiin 5000.
-
-Tuotantoversiossa Vite rakentaa frontendin `backend/dist`-kansioon, josta Express-palvelin tarjoaa rakennetun frontendin käyttäjälle.
-
 ## Backend
 
 Backend on toteutettu Node.js:n ja Expressin avulla. Backend vastaa API-rajapinnoista, käyttäjätietojen käsittelystä ja yhteydestä MongoDB-tietokantaan.
@@ -61,8 +58,6 @@ Backendin pääosat sijaitsevat `backend`-kansiossa:
 - `models/` sisältää MongoDB:n kanssa käytettävät Mongoose-tietomallit.
 - `routes/` sisältää API-reitit käyttäjien ja kirjautumisen käsittelyyn.
 - `requests/` sisältää REST-pyyntöjä API:n testaamista varten.
-
-Frontend käyttää backendin API-rajapintoja `/api`-alkuisilla HTTP-pyynnöillä.
 
 Backend käyttää MongoDB-tietokantaa, johon muodostetaan yhteys Mongoose-kirjaston avulla. Tietokannan yhteysosoite määritellään ympäristömuuttujalla `MONGODB_URI`.
 
@@ -86,7 +81,7 @@ Rekisteröitymisessä frontend lähettää käyttäjän tiedot backendille:
 
 Backend tarkistaa, ettei käyttäjänimi ole jo käytössä, ja tallentaa uuden käyttäjän MongoDB-tietokantaan.
 
-Salasana tallennetaan tietokantaan bcryptillä hajautettuna, eikä alkuperäistä salasanaa tallenneta sellaisenaan.
+Salasana tallennetaan tietokantaan bcryptillä hajautettuna.
 
 ### Kirjautuminen
 
@@ -119,28 +114,27 @@ Pyynnössä välitetään käyttäjän käyttäjänimi sekä päivitettävän va
 Tällä hetkellä etenemistä seurataan vaiheiden `stepOne` ja `stepTwo` osalta. Etenemistietoihin tallennetaan vaiheiden ja niiden tehtävien suorittamisen tila sekä tehtäviin annetut vastaukset.
 
 ## Projektin avaus
-  Kloonaa projekti komennolla: git clone "https://github.com/esedu-tivi/slice-uraopas.git"
-  Navigoi projektin frontend ja backend kansioon (cd "kansio" siirtyy kansioon ja cd .. ulommas), joissa molemmissa asennetaan riippuvuudet komennolla: "npm install"
-  Projektin kehityksen voit aloittaa komennoilla:
+- Kloonaa projekti komennolla: git clone "https://github.com/esedu-tivi/slice-uraopas.git"
+- Navigoi projektin frontend ja backend kansioon (cd "kansio" siirtyy kansioon ja cd .. ulommas), joissa molemmissa asennetaan riippuvuudet komennolla: "npm install"
+- Projektin kehityksen voit aloittaa komennoilla:
     Frontend: npm run dev
     Backend: npm start
     Nämä löytyvät myös package.json tiedostosta.
-  Backend tarvitsee .env tiedoston, johon tarvitaan muuttuja muodossa "MONGODB_URI". Tällä otetaan yhteys tällä hetkellä henkilökohtaiseen MongonDB:een tietokantaan.
-  Projektin pitäisi näin olla valmis kehitykseen paikallisesti.
+- Backend tarvitsee .env tiedoston, johon tarvitaan muuttuja muodossa "MONGODB_URI". Tällä otetaan yhteys tällä hetkellä henkilökohtaiseen MongonDB:een tietokantaan.
+- Projektin pitäisi näin olla valmis kehitykseen paikallisesti.
 
 ## Projektin hostaus Renderissä
-  Luo uusi "Web service".
-  Lisää projektin linkki osioon "Public Git Repository".
-  Valitse branch josta Render hakee tietonsa.
-  "Build Command": npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend
-  "Start Command": cd backend && npm start
-  Lisää vielä "Environment Variables" osioon .env kansiosta muuttuja "MONGODB_URI".
-  Projektin pitäisi toimia suoraan näillä ohjeilla.
+- Luo uusi "Web service".
+- Lisää projektin linkki osioon "Public Git Repository".
+- Valitse branch josta Render hakee tietonsa.
+- "Build Command": npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend
+- "Start Command": cd backend && npm start
+- Lisää vielä "Environment Variables" osioon .env kansiosta muuttuja "MONGODB_URI".
 
 ## Projektin keskeneräisiä asioita ja kehitysideoita
-  Sivu ei tällä hetkellä varmista oikeuksia eikä token pohjaista kirjautumista ole.
-  Sivun materiaalit puutuu kohdasta kolme eteenpäin.
-  Valmennus osio on tyhjä. Alunperin puhetta oli valmentavasta tekoälystä, mutta sinne voi keksiä jotain muuta tilalle.
-  Materiaali sivut on kovakoodattu. Osioiden lisääntyessä kannattaa tehdä sivua dynaamisemmaksi.
-  Lisää ominaisuuksia materiaaleihin, esimerkiksi pelejä?
-  Sivun rekisteröitymisen voisi miettiä uudelleen. Ehkä opettaja voisi luoda oppilaille tunnukset?
+- Sivu ei tällä hetkellä varmista oikeuksia eikä token pohjaista kirjautumista ole.
+- Sivun materiaalit puutuu kohdasta kolme eteenpäin.
+- Valmennus osio on tyhjä. Alunperin puhetta oli valmentavasta tekoälystä, mutta sinne voi keksiä jotain muuta tilalle.
+- Materiaali sivut on kovakoodattu. Osioiden lisääntyessä kannattaa tehdä sivua dynaamisemmaksi.
+- Lisää ominaisuuksia materiaaleihin, esimerkiksi pelejä?
+- Sivun rekisteröitymisen voisi miettiä uudelleen. Ehkä opettaja voisi luoda oppilaille tunnukset?
