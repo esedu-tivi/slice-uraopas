@@ -15,31 +15,29 @@ export function LoginView({ onBack, onLogin }: LoginViewProps) {
         event.preventDefault();
         setFormError("");
 
-        const response = await fetch("/api/auth/login", {
+        try {
+            const response = await fetch("/api/auth/login", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username,
-                password,
-            }),
-        });
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+            });
 
-        const data: {
-                userId: string;
-                progress: UserProgress;
-                error?: string;
-        } = await response.json();
-        
+            const data: {
+            userId: string;
+            progress: UserProgress;
+            error?: string;
+            } = await response.json();
 
-        if (!response.ok) {
+            if (!response.ok) {
             setFormError(data.error || "Kirjautuminen epäonnistui.");
             return;
+            }
+
+            onLogin(username, data.userId, data.progress);
+        } catch (error) {
+            console.error("Kirjautumispyyntö epäonnistui", error);
+            setFormError("Kirjautuminen epäonnistui");
         }
-
-        onLogin(username, data.userId, data.progress);
-
     }
 
     return (
