@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Tooltip } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface RegisterViewProps {
   onBack: () => void;
@@ -97,6 +99,7 @@ export function RegisterView({ onBack, onOpenLogin, onOpenHome }: RegisterViewPr
 
         } catch (error) {
             console.error("Rekisteröityminen epäonnistui:", error);
+            setFormError("Palvelimeen ei saatu yhteyttä. Yritä myöhemmin uudelleen.");
         }
 
     }
@@ -222,12 +225,21 @@ export function RegisterView({ onBack, onOpenLogin, onOpenHome }: RegisterViewPr
 
             {/* Salasana-kenttä */}
             <div className="mt-4">
-                <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-foreground mb-2"
-                >
-                    Salasana
-                </label>
+                <div className="flex items-center gap-1 mb-2">
+                    <label
+                        htmlFor="password"
+                        className="text-sm font-medium text-foreground"
+                    >
+                        Salasana
+                    </label>
+
+                    <Tooltip title="Salasanan tulee olla vähintään 8 merkkiä pitkä ja sisältää vähintään yksi iso kirjain sekä yksi numero.">
+                        <InfoOutlinedIcon
+                            className="text-muted-foreground cursor-help"
+                            fontSize="small"
+                        />
+                    </Tooltip>
+                </div>
 
                 <input
                     id="password"

@@ -21,7 +21,7 @@ export interface Material {
         name: string;
         status: "valmis" | "kesken";
 }
-// Kirjautuneen käyttäjän tiedot
+// käyttäjän tiedot
 export const currentUser: UserData = {
         name: "Matti Meikäläinen",
         title: "Lähihoitaja",

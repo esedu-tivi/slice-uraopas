@@ -54,11 +54,7 @@ function Shell() {
 
   //Uloskirjautuminen
   function handleLogout() {
-    const confirmed = window.confirm("Haluatko varmasti kirjautua ulos?");
 
-    if (!confirmed) {
-      return;
-    }
 
     setLoggedInUser(null);
     setLoggedInUserId(null);
