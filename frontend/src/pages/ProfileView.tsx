@@ -37,7 +37,7 @@ export function ProfileView({ loggedInUser, loggedInUserId, onOpenLogin, onOpenR
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/users/${loggedInUserId}`
+        `/api/users/${loggedInUserId}`
       );
 
       const data = await response.json();
