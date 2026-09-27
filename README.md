@@ -36,8 +36,7 @@ slice-uraopas/
 ```
 ## Ympäristömuuttujat
 
-Backend tarvitsee MongoDB-tietokannan yhteysosoitteen. Jokaisen kehittäjän tulee luoda paikallisesti projektin `backend`-hakemistoon oma `.env`-tiedosto. Tiedostoon tallennetaan ympäristömuuttuja
-MONGODB_URI=mongodb+srv://<käyttäjänimi>:<salasana>@<palvelin>/<tietokanta>
+Backend tarvitsee MongoDB-tietokannan yhteysosoitteen. Jokaisen kehittäjän tulee luoda paikallisesti projektin `backend`-hakemistoon oma `.env`-tiedosto. Tiedostoon tallennetaan ympäristömuuttuja MONGODB_URI
 
 ## Frontend
 
