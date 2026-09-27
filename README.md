@@ -34,6 +34,10 @@ slice-uraopas/
     ├── requests/         # REST-pyyntöjä testausta varten
     └── routes/           # Backendin API-reitit
 ```
+## Ympäristömuuttujat
+
+Backend tarvitsee MongoDB-tietokannan yhteysosoitteen. Jokaisen kehittäjän tulee luoda paikallisesti projektin `backend`-hakemistoon oma `.env`-tiedosto. Tiedostoon tallennetaan ympäristömuuttuja
+MONGODB_URI=mongodb+srv://<käyttäjänimi>:<salasana>@<palvelin>/<tietokanta>
 
 ## Frontend
 
@@ -138,3 +142,4 @@ Tällä hetkellä etenemistä seurataan vaiheiden `stepOne` ja `stepTwo` osalta.
 - Materiaali sivut on kovakoodattu. Osioiden lisääntyessä kannattaa tehdä sivua dynaamisemmaksi.
 - Lisää ominaisuuksia materiaaleihin, esimerkiksi pelejä?
 - Sivun rekisteröitymisen voisi miettiä uudelleen. Ehkä opettaja voisi luoda oppilaille tunnukset?
+- Tällä hetkellä profiilinäkymässä on vain tyhjät kohdat, jos käyttäjä ei ole kirjautuneena sisään. Pitäisikö muokata niin, ettei profiilinäkymään pääse ilman sisäänkirjautumista?
